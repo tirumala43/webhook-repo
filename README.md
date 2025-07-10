@@ -11,6 +11,7 @@ The project consists of two main GitHub repositories:
 
 The `webhook-repo` follows a structured Flask application pattern for better organization and maintainability:
 
+<img width="1228" height="387" alt="Screenshot (475)" src="https://github.com/user-attachments/assets/e1b4b4ad-d6d5-4285-ac0d-9f5098a82884" />
 
 
 ## Features
@@ -37,14 +38,14 @@ The `webhook-repo` follows a structured Flask application pattern for better org
 
 ## UI Display Formats
 
-[cite_start]The UI displays the changes in specific formats[cite: 6]:
+The UI displays the changes in specific formats:
 
-* [cite_start]**PUSH action**: `{author} pushed to {to_branch} on {timestamp}` [cite: 8]
-    * [cite_start]*Sample*: "Travis" pushed to "staging" on 1st April 2021 - 9:30 PM UTC [cite: 9]
-* [cite_start]**PULL_REQUEST action**: `{author} submitted a pull request from {from_branch} to {to_branch} on {timestamp}` [cite: 11]
-    * [cite_start]*Sample*: "Travis" submitted a pull request from "staging" to "master" on 1st April 2021 - 9:00 AM UTC [cite: 12]
-* [cite_start]**MERGE action**: `{author} merged branch {from_branch} to {to_branch} on {timestamp}` [cite: 14]
-    * [cite_start]*Sample*: "Travis" merged branch "dev" to "master" on 2nd April 2021 - 12:00 PM UTC [cite: 15]
+* **PUSH action**: `{author} pushed to {to_branch} on {timestamp}`
+    * *Sample*: "Travis" pushed to "staging" on 1st April 2021 - 9:30 PM UTC
+* **PULL_REQUEST action**: `{author} submitted a pull request from {from_branch} to {to_branch} on {timestamp}` 
+    * *Sample*: "Travis" submitted a pull request from "staging" to "master" on 1st April 2021 - 9:00 AM UTC 
+* **MERGE action**: `{author} merged branch {from_branch} to {to_branch} on {timestamp}` 
+    * *Sample*: "Travis" merged branch "dev" to "master" on 2nd April 2021 - 12:00 PM UTC 
 
 
 ## Setup and Running the Project
@@ -57,7 +58,7 @@ The `webhook-repo` follows a structured Flask application pattern for better org
 
 ### 1. `action-repo` Setup
 
-1.  [cite_start]**Create a New GitHub Repository**: Create a **public** repository on GitHub named `action-repo`[cite: 17]. This will be your dummy repository where you perform Git actions.
+1.  **Create a New GitHub Repository**: Create a **public** repository on GitHub named `action-repo`[cite: 17]. This will be your dummy repository where you perform Git actions.
 2.  **Clone Locally**: If you haven't already, clone `action-repo` to your local machine.
     ```bash
     git clone [https://github.com/YourGitHubUsername/action-repo.git](https://github.com/YourGitHubUsername/action-repo.git)
@@ -67,17 +68,14 @@ The `webhook-repo` follows a structured Flask application pattern for better org
 
 ### 2. `webhook-repo` Setup
 
-1.  [cite_start]**Create a New GitHub Repository**: Create a **public** repository on GitHub named `webhook-repo`[cite: 18].
+1.  **Create a New GitHub Repository**: Create a **public** repository on GitHub named `webhook-repo`.
 2.  **Clone Locally**:
     ```bash
     git clone [https://github.com/YourGitHubUsername/webhook-repo.git](https://github.com/YourGitHubUsername/webhook-repo.git)
     cd webhook-repo
     ```
 3.  **Environment Variables**:
-    * Copy the example environment file:
-        ```bash
-        cp .env.example .env
-        ```
+  
     * Edit the `.env` file and fill in the following details. Ensure you use strong secrets.
         ```dotenv
         MONGO_URI="mongodb://mongodb_container:27017/" # Connection string for MongoDB Docker service
@@ -183,9 +181,9 @@ Now, perform actions in your `action-repo` and observe how the webhooks trigger 
 
 1.  **Merge the PR**: On the Pull Request page in your `action-repo` on GitHub, click "Merge pull request" and confirm.
 2.  **Verify**:
-    * [cite_start]**GitHub**: Check webhook deliveries again; there should be another `pull_request` event, which your Flask application's logic will interpret as a MERGE[cite: 13].
+    * **GitHub**: Check webhook deliveries again; there should be another `pull_request` event, which your Flask application's logic will interpret as a MERGE.
     * **Flask Logs**: You should see logs indicating a "MERGE" event was processed.
-    * [cite_start]**Your UI**: Your UI should update with a new entry like: `{YourGitHubUsername} merged branch feature/test-pr to main on {timestamp}`[cite: 14].
+    * **Your UI**: Your UI should update with a new entry like: `{YourGitHubUsername} merged branch feature/test-pr to main on {timestamp}`.
 
 ## Stopping the Project
 
@@ -202,27 +200,21 @@ This section provides visual aids and links to demonstrate the project's functio
 
 ### Screenshots
 
-
 <img width="1920" height="930" alt="Screenshot (473)" src="https://github.com/user-attachments/assets/ad424b45-0ffb-4a10-a4ea-0e66638a96e5" />
-
-![UI Screenshot - Empty State](path/to/your/ui_empty_state.png)
 *Description: Screenshot of the UI before any GitHub events are processed.*
 
-![UI Screenshot - With Events](path/to/your/ui_with_events.png)
+<img width="1920" height="906" alt="Screenshot (469)" src="https://github.com/user-attachments/assets/9a053989-34ca-4046-ad2f-802e7da6ce47" />
 *Description: Screenshot of the UI displaying various GitHub events (Push, Pull Request, Merge).*
 
-![GitHub Webhook Delivery Screenshot](path/to/your/github_webhook_delivery.png)
+<img width="1920" height="901" alt="Screenshot (477)" src="https://github.com/user-attachments/assets/722bb509-bc6f-496a-816e-1577486e866c" />
 *Description: Screenshot from GitHub showing a successful webhook delivery.*
 
 ### Video Demonstrations
 
-You can embed or link to short video demonstrations of the workflow.
-
 **Project Demo (End-to-End Workflow)**
-[![Project Demo Thumbnail](path/to/your/video_thumbnail.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+
 *Description: A video showcasing the full workflow from a Git action to UI update.*
 
-*(Replace `path/to/your/video_thumbnail.jpg` with a path to an image for your video thumbnail, and `https://www.youtube.com/watch?v=YOUR_VIDEO_ID` with the actual link to your YouTube or other video hosting platform.)*
 
 ### Important Links
 
