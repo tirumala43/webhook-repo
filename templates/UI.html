@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Repo Activity</title>
+    
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/webhook.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>GitHub Repo Activity Feed</h1>
+        <div id="events-display">
+            <p>Loading events...</p>
+        </div>
+    </div>
+ 
+    <script src="{{ url_for('static', filename='javascript/webhook.js') }}"></script>
+</body>
+</html>
