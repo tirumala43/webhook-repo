@@ -1,40 +1,25 @@
 # webhook-repo
 # GitHub Webhook to MongoDB and UI Display
 
-This project implements a system to track GitHub repository activities (Push, Pull Request, Merge) using webhooks, store them in a MongoDB database, and display the latest changes on a clean, minimal web UI. [cite_start]The aim is to assess skills with a focus on bringing necessary, but minimal, data to the UI from a webhook receiver[cite: 3].
+This project implements a system to track GitHub repository activities (Push, Pull Request, Merge) using webhooks, store them in a MongoDB database, and display the latest changes on a clean, minimal web UI. [cite_start]The aim is to assess skills with a focus on bringing necessary, but minimal, data to the UI from a webhook receiver.
 
 The project consists of two main GitHub repositories:
-1.  [cite_start]`action-repo`: A GitHub repository where actions like "Push", "Pull Request", and "Merge" will be performed to trigger webhooks[cite: 5, 17].
-2.  [cite_start]`webhook-repo`: Contains the Flask application acting as a webhook endpoint, MongoDB integration, and the UI[cite: 18].
+1.  `action-repo`: A GitHub repository where actions like "Push", "Pull Request", and "Merge" will be performed to trigger webhooks[cite: 5, 17].
+2.  `webhook-repo`: Contains the Flask application acting as a webhook endpoint, MongoDB integration, and the UI[cite: 18].
 
 ## Project Structure (`webhook-repo`)
 
 The `webhook-repo` follows a structured Flask application pattern for better organization and maintainability:
 
-webhook-repo/
-|----webhook-env/                         -Virtual environment to work with python and flask packages version etc 
-|----static/                              
-|       |-------css/
-|                |----webhook.css         -Styling of page code in webhook.css 
-|
-|       |-------javascript/
-|                 |----webhook.js         -Behavior of the web page 
-|----templates/
-|       |-------UI.html                   -HTML code resides here 
-|----app.py                               - Flask application initializations code 
-|----database.py                          - Database for mongodb connection 
-|----routes.py                            - Defines the GitHub webhook endpoint
-|----requirements.txt                     - tools requried to install specified in requriments or dependencies
-|----README.md                            - Detailed project info 
 
 
 ## Features
 
-* [cite_start]**GitHub Webhook Integration**: Automatically sends an event (webhook) on "Push", "Pull Request", and "Merge" actions to a registered endpoint[cite: 5].
-* [cite_start]**Webhook Endpoint (Flask)**: A Python Flask application serves as the receiver for GitHub webhooks[cite: 25].
-* [cite_start]**MongoDB Storage**: Stores received event data to MongoDB in a specified schema[cite: 5, 24].
-* [cite_start]**Real-time UI Update**: The UI keeps pulling data from MongoDB every 15 seconds and displays the latest changes[cite: 6, 28, 39].
-* **Dockerized Deployment**:  MongoDB are set up to run in Docker containers using `docker`.
+**GitHub Webhook Integration**: Automatically sends an event (webhook) on "Push", "Pull Request", and "Merge" actions to a registered endpoint[cite: 5].
+**Webhook Endpoint (Flask)**: A Python Flask application serves as the receiver for GitHub webhooks[cite: 25].
+**MongoDB Storage**: Stores received event data to MongoDB in a specified schema[cite: 5, 24].
+**Real-time UI Update**: The UI keeps pulling data from MongoDB every 15 seconds and displays the latest changes[cite: 6, 28, 39].
+**Dockerized Deployment**:  MongoDB are set up to run in Docker containers using `docker`.
 
 ## MongoDB Schema
 
@@ -66,7 +51,7 @@ webhook-repo/
 
 ### Prerequisites
 
-* **Docker** and **Docker Compose** installed on your system (WSL2 recommended for Windows users).
+* **Docker**  installed on your system (WSL2 recommended for Windows users).
 * **Git** installed.
 * A **GitHub account** with the ability to create public repositories and configure webhooks.
 
@@ -98,9 +83,6 @@ webhook-repo/
         MONGO_URI="mongodb://mongodb_container:27017/" # Connection string for MongoDB Docker service
         DB_NAME="github_events_db"
         COLLECTION_NAME="events"
-        GITHUB_SECRET="your_strong_and_unique_github_webhook_secret_here" # CRITICAL: MUST match GitHub's secret
-        FLASK_APP="app.py"
-        FLASK_ENV="development" # Set to "production" for deployment
         ```
 
 ### 3. Run with Docker Compose
@@ -109,14 +91,12 @@ This is the recommended way to run the project, as it orchestrates both your Fla
 
 1.  **Build and Start Containers**: From the `webhook-repo` directory in your terminal:
     ```bash
-    docker-compose up --build -d
+    docker run -it -d --name mymongodb -p 27017:27017 mongo 
     ```
     This command will:
-    * Build the `flask_app` Docker image based on the `Dockerfile`.
     * Pull the `mongo` Docker image.
-    * Create a Docker bridge network (`app_network`).
-    * Start the `mongodb_container` and `flask_webhook_app` containers on this network.
-    * Map port `5000` from the `flask_webhook_app` container to port `5000` on your host (WSL Ubuntu machine).
+    * Start the `mongodb_container` to test its connectivity and working
+    * Map port `27017` from the `mongodb ` container to port `27017` on your host (WSL Ubuntu machine).
 2.  **Verify Running Containers**:
     ```bash
     docker ps
@@ -124,9 +104,9 @@ This is the recommended way to run the project, as it orchestrates both your Fla
     You should see `mongodb_container` and `flask_webhook_app` listed, with port `5000` mapped for the Flask app.
 3.  **Check Flask App Logs (Optional but Recommended)**:
     ```bash
-    docker logs flask_webhook_app
+    docker logs mongodb
     ```
-    You should see messages indicating Flask has started and successfully connected to MongoDB.
+    You should see messages indicating MongoDB has started  successfully.
 
 ### 4. Configure GitHub Webhook
 
@@ -161,7 +141,7 @@ This crucial step connects your `action-repo` to your running Flask application.
 
 ## Testing and Verification
 
-[cite_start]Now, perform actions in your `action-repo` and observe how the webhooks trigger the Flask app, data is stored in MongoDB, and the UI updates every 15 seconds[cite: 6].
+Now, perform actions in your `action-repo` and observe how the webhooks trigger the Flask app, data is stored in MongoDB, and the UI updates every 15 seconds.
 
 ### Test 1: PUSH Action
 
@@ -174,30 +154,30 @@ This crucial step connects your `action-repo` to your running Flask application.
     ```
 3.  **Verify**:
     * **GitHub**: Go to `action-repo` -> Settings -> Webhooks. Click on your webhook; you should see a recent successful delivery.
-    * **Flask App Logs**: Check `docker logs flask_webhook_app` for messages indicating a "PUSH" event was received and processed.
-    * [cite_start]**Your UI**: After a few seconds (up to 15 seconds due to polling), your UI at `http://localhost:5000/` should update with an entry like: `{YourGitHubUsername} pushed to main on {timestamp}`[cite: 8].
+    * **Flask App in Vscode client:  Verify that application running and test using curl commands and postman api testing
+    * **Your UI**: After a few seconds (up to 15 seconds due to polling), your UI at `http://localhost:5000/` should update with an entry like: `{YourGitHubUsername} pushed to main on {timestamp}`.
 
 ### Test 2: PULL_REQUEST Action (Opened)
 
 1.  **Create New Branch**: In your local `action-repo` directory:
     ```bash
-    git checkout -b feature/test-pr
+    git checkout -b feature/login
     ```
 2.  **Make Changes**: Create a new file or modify an existing one.
     ```bash
-    echo "This content is for a new pull request." > pr_content.txt
+    echo "This content is for a new pull request." > login.txt
     git add .
     git commit -m "Test: Adding file for PR"
     ```
 3.  **Push New Branch**:
     ```bash
-    git push origin feature/test-pr
+    git push origin feature/login
     ```
-4.  **Create PR on GitHub**: Go to your `action-repo` on GitHub. You should see a prompt to create a Pull Request from `feature/test-pr` to `main` (or `master`). Create the PR (do *not* merge it yet).
+4.  **Create PR on GitHub**: Go to your `action-repo` on GitHub. You should see a prompt to create a Pull Request from `feature/login` to `main` (or `master`). Create the PR (do *not* merge it yet).
 5.  **Verify**:
     * **GitHub**: Check webhook deliveries for a `pull_request` event.
     * **Flask Logs**: Look for messages about a "PULL_REQUEST" event being received.
-    * [cite_start]**Your UI**: Your UI should update with an entry like: `{YourGitHubUsername} submitted a pull request from feature/test-pr to main on {timestamp}`[cite: 11].
+    * **Your UI**: Your UI should update with an entry like: `{YourGitHubUsername} submitted a pull request from feature/test-pr to main on {timestamp}`.
 
 ### Test 3: MERGE Action
 
@@ -222,7 +202,8 @@ This section provides visual aids and links to demonstrate the project's functio
 
 ### Screenshots
 
-You can include screenshots of your UI and webhook logs here.
+
+<img width="1920" height="930" alt="Screenshot (473)" src="https://github.com/user-attachments/assets/ad424b45-0ffb-4a10-a4ea-0e66638a96e5" />
 
 ![UI Screenshot - Empty State](path/to/your/ui_empty_state.png)
 *Description: Screenshot of the UI before any GitHub events are processed.*
